@@ -1,6 +1,6 @@
 using MauiPeopleApp.Models;
 using MauiPeopleApp.ViewModels;
-
+using System.Runtime.InteropServices.JavaScript;
 namespace MauiPeopleApp.Views;
 
 public partial class PersonListPage : ContentPage
@@ -19,6 +19,21 @@ public partial class PersonListPage : ContentPage
         if (ViewModel.People.Count == 0)
             ViewModel.LoadPeopleCommand.Execute(null);
     }
+    private async void OnSelectionChanged(object? sender, SelectionChangedEventArgs ev)
+    {
+        try
+        {
+            if (ev.CurrentSelection.Count > 0 && ev.CurrentSelection[0] is Person selectedPerson)
+            {
+                await Navigation.PushAsync(new PersonDetailPage(selectedPerson));
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
 
+    }
 
 }
